@@ -1,3 +1,5 @@
+package entities;
+
 public class People {
     String name;
     String email;
@@ -45,9 +47,9 @@ public class People {
 
     @Override
     public String toString() {
-        return  name +  "\n"+
-                email +  "\n"+
-                age + "\n"+
+        return name + "\n" +
+                email + "\n" +
+                age + "\n" +
                 height;
     }
 }
