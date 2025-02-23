@@ -1,10 +1,10 @@
-public class people {
+public class People {
     String name;
     String email;
     Integer age;
-    Integer height;
+    Double height;
 
-    public people(String name, String email, Integer age, Integer height) {
+    public People(String name, String email, Integer age, Double height) {
         this.name = name;
         this.email = email;
         this.age = age;
@@ -35,14 +35,24 @@ public class people {
         this.age = age;
     }
 
-    public Integer getHeight() {
+    public Double getHeight() {
         return height;
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(Double height) {
         this.height = height;
     }
+
+    @Override
+    public String toString() {
+        return  name +  "\n"+
+                email +  "\n"+
+                age + "\n"+
+                height;
+    }
 }
+
+
 
 
 
