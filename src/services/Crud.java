@@ -16,28 +16,47 @@ public final class Crud {
             System.out.println(line);
         }
         br2.close();
-        String[] data = new String[(int) Files.lines(Paths.get(file + "/formulario.txt")).count()];
-        for (int i = 0; i < data.length; i++) data[i] = sc.nextLine();
-        registeredPeople.add(new People(data[0], data[1], Integer.parseInt(data[2]), Double.parseDouble(data[3])));
+        int numberOfQuestions = (int) Files.lines(Paths.get(file + "/formulario.txt")).count();
+        String[] data = new String[numberOfQuestions];
+        for (int i = 0; i < data.length; i++) {
+            System.out.print(i + 1 + ": ");
+            data[i] = sc.nextLine();
+        }
+        createUser(registeredPeople, numberOfQuestions, data);
         BufferedWriter bw2 = new BufferedWriter(new FileWriter(file + "/users/" + registeredPeople.size() + "." + data[0].toUpperCase() + ".txt"));
-        bw2.write(registeredPeople.getLast().toString());
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < data.length; i++) {
+            sb.append(data[i] + "\n");
+        }
+        bw2.write(sb.toString());
         bw2.close();
+    }
+
+    private static void createUser(List<People> registeredPeople, int numberOfQuestions, String[] data) {
+        registeredPeople.add(new People(data[0], data[1], Integer.parseInt(data[2]), Double.parseDouble(data[3])));
+        int fixedQuestions = 4;
+        for (int i = 0; i < numberOfQuestions - fixedQuestions; i++) {
+            registeredPeople.getLast().setExtraAttributes(i, data[4 + i]);
+        }
     }
 
     public static void initialRegister(List<People> registeredPeople, File file) throws IOException {
         Files.list(Paths.get(file.getAbsolutePath() + "/users")).filter(Files::isRegularFile).forEach(fileUsers -> {
             try (BufferedReader br3 = new BufferedReader(new FileReader(file + "/users/" + fileUsers.getFileName().toString()))) {
-                String[] data = new String[(int) Files.lines(Paths.get(file + "/formulario.txt")).count()];
+                int numberOfQuestions = (int) Files.lines(Paths.get(file + "/formulario.txt")).count();
+                String[] data = new String[numberOfQuestions];
                 for (int i = 0; i < data.length; i++) data[i] = br3.readLine();
-                registeredPeople.add(new People(data[0], data[1], Integer.parseInt(data[2]), Double.parseDouble(data[3])));
+                createUser(registeredPeople, numberOfQuestions, data);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
     }
 
-    public static void selectUsers(List<People> registeredPeople, File file) throws IOException {
-
+    public static void selectAllUsers(List<People> registeredPeople) {
+        for (int i = 0; i < registeredPeople.size(); i++) {
+            System.out.println(i + 1 + " - " + registeredPeople.get(i).getName());
+        }
     }
 }
 

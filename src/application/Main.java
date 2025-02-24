@@ -2,6 +2,7 @@ package application;
 
 import entities.People;
 import services.Crud;
+import services.services.QuestionManagement;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -30,10 +31,10 @@ public class Main {
                         Crud.register(registeredPeople, file, sc);
                         break;
                     case 2:
-//                        selectAllUsers();
+                        Crud.selectAllUsers(registeredPeople);
                         break;
                     case 3:
-//                        newQuestion();
+                        QuestionManagement.addQuestion(file, sc);
                         break;
                     case 4:
 //                        deleteQuestion();
@@ -47,7 +48,7 @@ public class Main {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e.getCause() + " " + e.getMessage() + " " + e.getStackTrace());
+            System.out.println(e);
         }
 
     }

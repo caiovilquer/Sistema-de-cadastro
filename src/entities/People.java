@@ -1,10 +1,15 @@
 package entities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class People {
-    String name;
-    String email;
-    Integer age;
-    Double height;
+    private String name;
+    private String email;
+    private Integer age;
+    private Double height;
+    private Map<Integer, String> extraAttributes = new HashMap<>();
+
 
     public People(String name, String email, Integer age, Double height) {
         this.name = name;
@@ -43,6 +48,14 @@ public class People {
 
     public void setHeight(Double height) {
         this.height = height;
+    }
+
+    public void setExtraAttributes(Integer key, String value) {
+        extraAttributes.put(key, value);
+    }
+
+    public String getExtraAttributes(Integer key) {
+        return extraAttributes.get(key);
     }
 
     @Override
