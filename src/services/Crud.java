@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public final class Crud {
-    public static void register(List<People> registeredPeople, File file, Scanner sc) throws FileNotFoundException, IOException {
+    public static void register(List<People> registeredPeople, File file, Scanner sc) throws IOException {
         BufferedReader br2 = new BufferedReader(new FileReader(file + "/formulario.txt"));
         while (br2.ready()) {
             String line = br2.readLine();

@@ -2,7 +2,7 @@ package application;
 
 import entities.People;
 import services.Crud;
-import services.services.QuestionManagement;
+import services.QuestionManagement;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class Main {
             File file = new File("/home/caiovilquer/Documents/Repositório/ws-java/sistema_de_cadastros/Data");
             List<People> registeredPeople = new ArrayList<People>();
             Crud.initialRegister(registeredPeople, file);
-            Crud.register(registeredPeople, file, sc);
+//            Crud.register(registeredPeople, file, sc);
             while (true) {
                 BufferedReader br = new BufferedReader(new FileReader(file + "/menu.txt"));
                 while (br.ready()) {
@@ -37,7 +37,7 @@ public class Main {
                         QuestionManagement.addQuestion(file, sc);
                         break;
                     case 4:
-//                        deleteQuestion();
+                        QuestionManagement.deleteQuestion(file, sc);
                         break;
                     case 5:
 //                        selectByAttribute();
