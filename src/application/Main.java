@@ -1,6 +1,7 @@
 package application;
 
 import entities.People;
+import exceptions.NameIsToShortException;
 import services.Crud;
 import services.QuestionManagement;
 
@@ -14,7 +15,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         try (Scanner sc = new Scanner(System.in)) {
-
             File file = new File("/home/caiovilquer/Documents/Repositório/ws-java/sistema_de_cadastros/Data");
             List<People> registeredPeople = new ArrayList<People>();
             Crud.initialRegister(registeredPeople, file);
@@ -40,6 +40,7 @@ public class Main {
                         Crud.register(registeredPeople, file, data, numberOfQuestions);
                         break;
                     case 2:
+                        System.out.println("Todos os usuários cadastrados no formulário:");
                         Crud.selectAllUsers(registeredPeople);
                         break;
                     case 3:
@@ -50,7 +51,7 @@ public class Main {
                         break;
                     case 5:
                         System.out.print("Digite o termo a ser buscado: ");
-                        Crud.selectByAttribute(registeredPeople, sc.nextLine());
+                        Crud.selectByAttribute(registeredPeople, sc.nextLine(), numberOfQuestions);
                         break;
                     default:
                         System.out.println("Error, invalid option");
@@ -58,10 +59,8 @@ public class Main {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Erro: " + e);
         }
 
     }
-
-
 }

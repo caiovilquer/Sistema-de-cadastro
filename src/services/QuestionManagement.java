@@ -8,14 +8,17 @@ import java.util.List;
 import java.util.Scanner;
 
 public final class QuestionManagement {
-    public static void addQuestion(File file, Scanner sc){
-        try(BufferedWriter bw4 = new BufferedWriter(new FileWriter(file + "/formulario.txt", true))) {
+    public static void addQuestion(File file, Scanner sc) {
+        try (BufferedWriter bw4 = new BufferedWriter(new FileWriter(file + "/formulario.txt", true))) {
             System.out.println("Escreva a nova pergunta: ");
-            bw4.append(((int) Files.lines(Paths.get(file + "/formulario.txt")).count()+1)+ " - " +sc.nextLine());
+            bw4.write(((int) Files.lines(Paths.get(file + "/formulario.txt")).count() + 1) + " - " + sc.nextLine());
+            bw4.newLine();
+            System.out.println("Pergunta adicionada com sucesso!");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
     public static void deleteQuestion(File file, Scanner sc) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(file + "/formulario.txt"));
         List<String> questions = new ArrayList<String>();
@@ -32,17 +35,20 @@ public final class QuestionManagement {
         }
         br2.close();
 
-        System.out.println(questions);
-        System.out.print("Digite o numero da pergunta que deseja deletar: ");
-        int choose = sc.nextInt();
-        choose--;
-        questions.remove(choose);
-        System.out.println(questions);
+        if (questions.size() <= 4) System.out.println("Não há perguntas para deletar");
 
-        BufferedWriter bw = new BufferedWriter(new FileWriter(file + "/formulario.txt"));
-        for (int i = 0; i < questions.size(); i++) {
-            bw.write(i+1 + " - " +questions.get(i) + "\n");
+        else {
+            System.out.print("Digite o numero da pergunta que deseja deletar: ");
+            int choose = sc.nextInt();
+            choose--;
+            questions.remove(choose);
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file + "/formulario.txt"));
+            for (int i = 0; i < questions.size(); i++) {
+                bw.write(i + 1 + " - " + questions.get(i) + "\n");
+            }
+            bw.close();
+            System.out.println("Pergunta deletada com sucesso!");
         }
-        bw.close();
     }
 }

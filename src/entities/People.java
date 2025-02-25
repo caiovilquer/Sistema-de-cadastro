@@ -8,8 +8,8 @@ public class People {
     private String email;
     private Integer age;
     private Double height;
+    public static final int fixedQuestions = 4;
     private Map<Integer, String> extraAttributes = new HashMap<>();
-
 
     public People(String name, String email, Integer age, Double height) {
         this.name = name;
@@ -50,6 +50,8 @@ public class People {
         this.height = height;
     }
 
+
+
     public void setExtraAttributes(Integer key, String value) {
         extraAttributes.put(key, value);
     }
@@ -57,6 +59,7 @@ public class People {
     public String getExtraAttributes(Integer key) {
         return extraAttributes.get(key);
     }
+
 
     @Override
     public String toString() {
