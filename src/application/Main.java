@@ -5,6 +5,8 @@ import services.Crud;
 import services.QuestionManagement;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +18,7 @@ public class Main {
             File file = new File("/home/caiovilquer/Documents/Repositório/ws-java/sistema_de_cadastros/Data");
             List<People> registeredPeople = new ArrayList<People>();
             Crud.initialRegister(registeredPeople, file);
-//            Crud.register(registeredPeople, file, sc);
+
             while (true) {
                 BufferedReader br = new BufferedReader(new FileReader(file + "/menu.txt"));
                 while (br.ready()) {
@@ -26,9 +28,16 @@ public class Main {
                 br.close();
                 int choose = sc.nextInt();
                 sc.nextLine();
+                int numberOfQuestions = (int) Files.lines(Paths.get(file + "/formulario.txt")).count();
                 switch (choose) {
                     case 1:
-                        Crud.register(registeredPeople, file, sc);
+                        Crud.viewQuestions(file);
+                        String[] data = new String[numberOfQuestions];
+                        for (int i = 0; i < data.length; i++) {
+                            System.out.print(i + 1 + ": ");
+                            data[i] = sc.nextLine();
+                        }
+                        Crud.register(registeredPeople, file, data, numberOfQuestions);
                         break;
                     case 2:
                         Crud.selectAllUsers(registeredPeople);
@@ -40,7 +49,8 @@ public class Main {
                         QuestionManagement.deleteQuestion(file, sc);
                         break;
                     case 5:
-//                        selectByAttribute();
+                        System.out.print("Digite o termo a ser buscado: ");
+                        Crud.selectByAttribute(registeredPeople, sc.nextLine());
                         break;
                     default:
                         System.out.println("Error, invalid option");
