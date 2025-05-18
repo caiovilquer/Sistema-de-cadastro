@@ -1,35 +1,43 @@
 package application;
 
 import entities.People;
-import exceptions.NameIsToShortException;
 import services.Crud;
 import services.QuestionManagement;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
         try (Scanner sc = new Scanner(System.in)) {
-            File file = new File("/home/caiovilquer/Documents/Repositório/ws-java/sistema_de_cadastros/Data");
-            List<People> registeredPeople = new ArrayList<People>();
+            File currentDirectory = new File(".");
+            File file = new File(currentDirectory + "/Data");
+            Path formPath = Paths.get(file.getAbsolutePath(), "formulario.txt");
+            List<People> registeredPeople = new ArrayList<>();
             Crud.initialRegister(registeredPeople, file);
-
             while (true) {
-                BufferedReader br = new BufferedReader(new FileReader(file + "/menu.txt"));
-                while (br.ready()) {
-                    String line = br.readLine();
-                    System.out.println(line);
+                Path menuPath = Paths.get(file.getAbsolutePath(), "menu.txt");
+                try (BufferedReader br = Files.newBufferedReader(menuPath)) {
+                    br.lines().forEach(System.out::println);
                 }
-                br.close();
+                System.out.println("0 - Para sair do sistema");
                 int choose = sc.nextInt();
                 sc.nextLine();
-                int numberOfQuestions = (int) Files.lines(Paths.get(file + "/formulario.txt")).count();
+                int numberOfQuestions;
+                try (Stream<String> lines = Files.lines(formPath)) {
+                    numberOfQuestions = (int) lines.count();
+                }
                 switch (choose) {
+                    case 0:
+                        System.out.println("Saindo...");
+                        return;
+
                     case 1:
                         Crud.viewQuestions(file);
                         String[] data = new String[numberOfQuestions];
